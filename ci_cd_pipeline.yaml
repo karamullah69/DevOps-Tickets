@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyPipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn: !GetAtt PipelineRole.Arn
+      Stages:
+        - Name: Dev
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: '1'
+                Provider: GitHub
+              Configuration:
+                Owner: karamullah69
+                Repo: https://github.com/karamullah69/DevOps-Tickets.git
+                Branch: main
+                OAuthToken: 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
+              OutputArtifacts:
+                - Name: SourceOutput
+          # Additional actions and configuration for the Dev stage
+
+        - Name: QA
+          Actions:
+            - Name: Approval
+              ActionTypeId:
+                Category: Approval
+                Owner: AWS
+                Version: '1'
+                Provider: Manual
+              Configuration:
+                NotificationArn: arn:aws:sns:us-east-1:674100930412:QA_Stage
+
+              InputArtifacts:
+                - Name: SourceOutput
+          # Additional actions and configuration for the QA stage
+
+        - Name: UAT
+          Actions:
+            - Name: Approval
+              ActionTypeId:
+                Category: Approval
+                Owner: AWS
+                Version: '1'
+                Provider: Manual
+              Configuration:
+                NotificationArn: aarn:aws:sns:us-east-1:674100930412:UAT
+              InputArtifacts:
+                - Name: SourceOutput
+          # Additional actions and configuration for the UAT stage
+
+        - Name: Prod
+          Actions:
+            - Name: Approval
+              ActionTypeId:
+                Category: Approval
+                Owner: AWS
+                Version: '1'
+                Provider: Manual
+              Configuration:
+                NotificationArn: arn:aws:sns:us-east-1:674100930412:Prod
+              InputArtifacts:
+                - Name: SourceOutput
+          # Additional actions and configuration for the Prod stage
+
+  PipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Policies:
+        - PolicyName: CodePipelinePipelineCreator
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: codepipeline:CreatePipeline
+                Resource: "*"
