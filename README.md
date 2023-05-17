@@ -1,4 +1,4 @@
-# CI/CD Pipeline with AWS CDK
+# CI/CD Pipeline with AWS Cloudformation
 
 This project sets up a four-stage CI/CD pipeline using AWS CloudFormation and AWS CDK. The pipeline automates the deployment of code from a GitHub repository to different environments (Dev, QA, UAT, Prod) with manual approvals for each stage.
 
