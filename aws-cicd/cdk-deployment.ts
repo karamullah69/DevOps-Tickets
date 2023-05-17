@@ -28,9 +28,9 @@ const ecrRepo = new ecr.Repository(app, 'MyECRRepo', {
 const codeBuildProject = new codebuild.Project(app, 'MyCodeBuildProject', {
   projectName: 'my-codebuild-project',
   source: codebuild.Source.gitHub({
-    owner: 'your-github-owner',
-    repo: 'your-github-repo',
-    branchOrRef: 'your-github-branch',
+    owner: 'karamullah69',
+    repo: 'aws_pipeline',
+    branchOrRef: 'main',
   }),
   buildSpec: codebuild.BuildSpec.fromSourceFilename('buildspec.yml'),
   environment: {
