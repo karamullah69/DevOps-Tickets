@@ -41,7 +41,7 @@ Resources:
                 Category: Source
                 Owner: ThirdParty
                 Provider: GitHub
-                Version: '1'
+                Version: '2'
               Configuration:
                 Owner: karamullah69
                 Repo: !Ref GitHubRepoName
