@@ -59,11 +59,11 @@ const sourceStage = pipeline.addStage({
   actions: [
     new codepipelineActions.GitHubSourceAction({
       actionName: 'Source',
-      owner: 'your-github-owner',
-      repo: 'your-github-repo',
-      branch: 'your-github-branch',
+      owner: 'karamullah69',
+      repo: 'aws_pipeline',
+      branch: 'main',
       output: new codepipeline.Artifact(),
-      oauthToken: cdk.SecretValue.secretsManager('github-token-secret'),
+      oauthToken: cdk.SecretValue.secretsManager('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'),
     }),
   ],
 });

@@ -1,12 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+
 Parameters:
-  GitHubRepoName:
+  GitHubRepoName: 
     Type: String
     Description: Name of the GitHub repository
-  GitHubBranch:
+    Default: "aws_pipeline"
+  GitHubBranch: 
     Type: String
     Description: Branch of the GitHub repository to monitor
+    Default: "main"
 
 Resources:
+  PipelineSourceBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-source-bucket-name
+
+  PipelineArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-artifact-bucket-name
+
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -23,8 +37,8 @@ Resources:
                 Version: '1'
               Configuration:
                 Owner: karamullah69
-                Repo: !Ref aws_pipeline
-                Branch: !Ref main
+                Repo: !Ref GitHubRepoName
+                Branch: !Ref GitHubBranch
               OutputArtifacts:
                 - Name: SourceOutput
               RunOrder: 1
@@ -35,7 +49,7 @@ Resources:
                 Provider: CodeBuild
                 Version: '1'
               Configuration:
-                ProjectName: MyCodeBuildProjectDev
+                ProjectName: AwsPipeline
               InputArtifacts:
                 - Name: SourceOutput
               OutputArtifacts:
@@ -109,10 +123,9 @@ Resources:
                   - s3:PutObjectAcl
                   - s3:ListBucket
                 Resource:
-                  - !Sub 'arn:aws:s3:::${SourceBucketName}/*'
-                  - !Sub 'arn:aws:s3:::${ArtifactsBucketName}/*'
+                  - !Sub 'arn:aws:s3:::${PipelineSourceBucket}/*'
+                  - !Sub 'arn:aws:s3:::${PipelineArtifactBucket}/*'
               - Effect: Allow
                 Action:
                   - codepipeline:*
                 Resource: "*"
-
