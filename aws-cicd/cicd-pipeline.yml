@@ -11,11 +11,15 @@ Parameters:
     Default: "main"
 
 Resources:
+  PipelineArtifactStore:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-artifact-store-bucket-name
+
   PipelineSourceBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: my-source-bucket-name
-
   PipelineArtifactBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -26,8 +30,11 @@ Resources:
     Properties:
       Name: MyCICDPipeline
       RoleArn: !GetAtt PipelineRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref PipelineArtifactStore
       Stages:
-        - Name: Dev
+        - Name: Source
           Actions:
             - Name: Source
               ActionTypeId:
@@ -39,9 +46,13 @@ Resources:
                 Owner: karamullah69
                 Repo: !Ref GitHubRepoName
                 Branch: !Ref GitHubBranch
+                OAuthToken: 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
+
               OutputArtifacts:
                 - Name: SourceOutput
               RunOrder: 1
+        - Name: Dev
+          Actions:
             - Name: Build
               ActionTypeId:
                 Category: Build
@@ -54,7 +65,7 @@ Resources:
                 - Name: SourceOutput
               OutputArtifacts:
                 - Name: BuildOutput
-              RunOrder: 2
+              RunOrder: 1
             - Name: ManualApproval
               ActionTypeId:
                 Category: Approval
@@ -63,7 +74,7 @@ Resources:
                 Version: '1'
               Configuration:
                 CustomData: Proceed with deployment to QA
-              RunOrder: 3
+              RunOrder: 2
         - Name: QA
           Actions:
             - Name: ManualApproval
@@ -129,3 +140,4 @@ Resources:
                 Action:
                   - codepipeline:*
                 Resource: "*"
+    DependsOn: PipelineArtifactStore
