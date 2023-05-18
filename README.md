@@ -1,39 +1,48 @@
-# CI/CD Pipeline with AWS Cloudformation
+# CI/CD Pipeline with AWS CloudFormation and Terraform
 
-This project sets up a four-stage CI/CD pipeline using AWS CloudFormation and AWS CDK. The pipeline automates the deployment of code from a GitHub repository to different environments (Dev, QA, UAT, Prod) with manual approvals for each stage.
+This project demonstrates the setup of a four-stage CI/CD pipeline using AWS CloudFormation and Terraform. The pipeline includes Dev, QA, UAT, and Prod stages, each with manual approvals before progressing to the next stage. Additionally, the project includes infrastructure deployment, batch job components, and code deployment from GitHub to Amazon Elastic Container Registry (ECR).
 
 ## Prerequisites
 
-Before deploying the CI/CD pipeline, make sure you have the following prerequisites:
+Before deploying the pipeline and infrastructure components, make sure you have the following:
 
-- AWS account credentials with sufficient permissions to create AWS resources.
-- Node.js and npm installed on your local machine.
-- AWS CDK installed and configured on your local machine.
+- An AWS account with appropriate permissions to create resources.
+- AWS CLI installed and configured with access keys.
+- Terraform installed on your local machine.
 
-## Getting Started
+## Deployment Instructions
 
-Follow the steps below to deploy the CI/CD pipeline:
+### AWS CloudFormation
 
-1. Clone this repository to your local machine.
-2. Navigate to the project directory.
-3. Install the required dependencies by running the following command:
-4. Modify the AWS CDK script (`cdk-deployment.ts`) to update any specific configurations (e.g., GitHub repository details, AWS region, etc.).
-5. Deploy the CI/CD pipeline by running the following command:
-6. Confirm the deployment by reviewing the changes to be made and entering "y" when prompted.
+1. Open the AWS Management Console and navigate to AWS CloudFormation.
+2. Create a new CloudFormation stack.
+3. Upload the `pipeline.yaml` template file.
+4. Follow the wizard to provide necessary parameters and create the stack.
+5. Wait for the stack to be created. This will set up the CI/CD pipeline with the specified stages.
 
-## Architecture
+### Terraform
 
-The CI/CD pipeline is created using AWS CDK and deploys the following AWS resources for each stage:
+1. Clone or download this repository to your local machine.
+2. Install Terraform by downloading it from the official website.
+3. Open a command-line interface and navigate to the project directory.
+4. Run `terraform init` to initialize the Terraform working directory.
+5. Review the Terraform plan with `terraform plan`.
+6. Apply the Terraform changes with `terraform apply`.
+7. Confirm the changes by typing "yes" when prompted.
+8. Wait for Terraform to provision the infrastructure and deploy the resources.
 
-- CodeCommit repository: Stores the application code for each environment.
-- ECR repository: Stores Docker images of the application.
-- CodeBuild project: Builds the Docker image and pushes it to the ECR repository.
-- CodePipeline: Orchestrates the flow of the CI/CD pipeline and triggers the appropriate actions.
+## Project Structure
 
-## Manual Approvals
+The project includes the following files:
 
-The pipeline includes manual approvals for each stage, except the first one. This allows designated individuals to review and approve the deployments before progressing to the next stage.
+- `pipeline.yaml`: AWS CloudFormation template for the CI/CD pipeline.
+- `deploy.tf`: Terraform configuration for infrastructure deployment, batch job components, and code deployment.
+- `buildspec.yml`: Build specification file for CodeBuild project, specifying the build steps.
 
-When a deployment reaches
+## Customization
 
-Feel free to modify the README.md file according to your project's specific details and requirements.
+Feel free to customize the CloudFormation template and Terraform configuration files to fit your specific requirements. You can modify the pipeline stages, add or remove resources, and adjust the deployment settings as needed.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
