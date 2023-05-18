@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: 0.3
 
 phases:
@@ -16,3 +17,23 @@ artifacts:
   files:
     - '**/*'
   discard-paths: yes
+=======
+version: 0.3
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+  build:
+    commands:
+      - npm install
+      - npm run build
+  post_build:
+    commands:
+      - echo "Build completed on `date`"
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
+>>>>>>> 886aebcd30ce0ee18388a8a591ffa0fb37ff2b45
