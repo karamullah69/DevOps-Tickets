@@ -17,7 +17,7 @@ Follow the steps below to deploy the CI/CD pipeline:
 1. Clone this repository to your local machine.
 2. Navigate to the project directory.
 3. Install the required dependencies by running the following command:
-4. Modify the AWS CDK script (`cdk-deployments.ts`) to update any specific configurations (e.g., GitHub repository details, AWS region, etc.).
+4. Modify the AWS CDK script (`cdk-deployment.ts`) to update any specific configurations (e.g., GitHub repository details, AWS region, etc.).
 5. Deploy the CI/CD pipeline by running the following command:
 6. Confirm the deployment by reviewing the changes to be made and entering "y" when prompted.
 
